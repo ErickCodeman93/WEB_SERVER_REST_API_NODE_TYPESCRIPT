@@ -7,11 +7,11 @@ class ConfigWebRoutes {
 
 	static startRoute( app:Application ){
 
-		const webPaths = {
+		const apiPaths = {
 			users: '/api/users',
 		};
 
-		app.use( webPaths.users, users );
+		app.use( apiPaths.users, users );
 
 	} //end constuctor
 

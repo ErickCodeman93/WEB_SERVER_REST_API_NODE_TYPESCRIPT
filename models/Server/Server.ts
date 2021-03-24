@@ -28,9 +28,11 @@ class Server {
 		//Ejecutar middlewares
 		this.middlewares();
 
-		//Ejecutar rutas
-		ConfigWebRoutes.startRoute( this.app );
+		//Ejecutar rutas API
 		ConfigApiRoutes.startRoute( this.app );
+		
+		//Ejecutar rutas WEB
+		ConfigWebRoutes.startRoute( this.app );
 
 	} //end contructor
 

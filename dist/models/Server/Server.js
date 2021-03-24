@@ -21,9 +21,10 @@ class Server {
         hbs_1.default.registerPartials(this.dirWebPage + '/views/content');
         //Ejecutar middlewares
         this.middlewares();
-        //Ejecutar rutas
-        ConfigWebRoutes_1.default.startRoute(this.app);
+        //Ejecutar rutas API
         ConfigApiRoutes_1.default.startRoute(this.app);
+        //Ejecutar rutas WEB
+        ConfigWebRoutes_1.default.startRoute(this.app);
     } //end contructor
     middlewares() {
         //Cors

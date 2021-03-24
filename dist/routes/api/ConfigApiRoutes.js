@@ -7,10 +7,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const users_1 = __importDefault(require("./users"));
 class ConfigWebRoutes {
     static startRoute(app) {
-        const webPaths = {
+        const apiPaths = {
             users: '/api/users',
         };
-        app.use(webPaths.users, users_1.default);
+        app.use(apiPaths.users, users_1.default);
     } //end constuctor
 } //end class
 exports.default = ConfigWebRoutes;
