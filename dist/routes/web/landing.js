@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+//Controllers
 const LandingController_1 = require("../../controllers/WEB/LandingController");
 const routerWeb = express_1.Router();
 routerWeb.get(/^\/(es|en)$/, LandingController_1.homeController);

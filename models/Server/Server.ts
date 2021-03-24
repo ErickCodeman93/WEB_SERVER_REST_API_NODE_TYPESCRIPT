@@ -2,17 +2,18 @@ import express, { Application } from 'express';
 import cors from 'cors';
 import hbs from 'hbs';
 
-import webRoutes from '../routes/web/landing';
+//Config routes web
+import ConfigWebRoutes from '../../routes/web/ConfigWebRoutes';
+
+//Config routes API
+import ConfigApiRoutes from '../../routes/api/ConfigApiRoutes';
 
 class Server {
 
 	private app: Application;
 	private port: string;
 	private dirWebPage: string;
-	private webPaths = {
-		inicio: '/'
-	};
-
+	
 	constructor(){
 
 		this.app = express();
@@ -28,7 +29,9 @@ class Server {
 		this.middlewares();
 
 		//Ejecutar rutas
-		this.routes();
+		ConfigWebRoutes.startRoute( this.app );
+		ConfigApiRoutes.startRoute( this.app );
+
 	} //end contructor
 
 	middlewares(){
@@ -41,11 +44,6 @@ class Server {
 
 		//Carpeta publica
 		this.app.use( express.static( 'public' ) );
-	} //end method
-
-	routes(){
-
-		this.app.use( this.webPaths.inicio, webRoutes );
 	} //end method
 
 	listen(){

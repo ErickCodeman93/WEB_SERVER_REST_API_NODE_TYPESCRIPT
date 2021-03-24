@@ -6,12 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const hbs_1 = __importDefault(require("hbs"));
-const landing_1 = __importDefault(require("../routes/web/landing"));
+//Config routes web
+const ConfigWebRoutes_1 = __importDefault(require("../../routes/web/ConfigWebRoutes"));
+//Config routes API
+const ConfigApiRoutes_1 = __importDefault(require("../../routes/api/ConfigApiRoutes"));
 class Server {
     constructor() {
-        this.webPaths = {
-            inicio: '/'
-        };
         this.app = express_1.default();
         this.port = process.env.PORT || '8000';
         this.dirWebPage = process.cwd();
@@ -22,7 +22,8 @@ class Server {
         //Ejecutar middlewares
         this.middlewares();
         //Ejecutar rutas
-        this.routes();
+        ConfigWebRoutes_1.default.startRoute(this.app);
+        ConfigApiRoutes_1.default.startRoute(this.app);
     } //end contructor
     middlewares() {
         //Cors
@@ -31,9 +32,6 @@ class Server {
         this.app.use(express_1.default.json());
         //Carpeta publica
         this.app.use(express_1.default.static('public'));
-    } //end method
-    routes() {
-        this.app.use(this.webPaths.inicio, landing_1.default);
     } //end method
     listen() {
         this.app.listen(this.port, () => {

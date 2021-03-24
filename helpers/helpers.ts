@@ -1,5 +1,5 @@
 import hbs from 'hbs';
-import InfoGeneral from "../models/InfoGeneral";
+import InfoGeneral from "../models/Data/InfoGeneral";
 
 export const sendInformation = ( idiom = 'es' ) => {
 

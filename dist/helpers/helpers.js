@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendInformation = void 0;
 const hbs_1 = __importDefault(require("hbs"));
-const InfoGeneral_1 = __importDefault(require("../models/InfoGeneral"));
+const InfoGeneral_1 = __importDefault(require("../models/Data/InfoGeneral"));
 const sendInformation = (idiom = 'es') => {
     const data = new InfoGeneral_1.default();
     let personalInfo;
