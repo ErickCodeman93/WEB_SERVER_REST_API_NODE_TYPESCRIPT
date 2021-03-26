@@ -36,15 +36,6 @@ const App = () => {
 
 	const [formularioValido, cambiarFormularioValido ] = useState( null );
 
-
-	const expresiones = {
-		usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
-		nombre: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
-		password: /^.{4,12}$/, // 4 a 12 digitos.
-		correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-		telefono: /^\d{7,14}$/ // 7 a 14 numeros.
-	}
-
 	const validarPassword2 = () => {
 
 		let value = false;
@@ -98,12 +89,12 @@ const App = () => {
 			return;
 		} //end else
 
-			const { campo:user } = usuario;
-			const { campo:name } = nombre;
-			const { campo:phone } = telefono;
-			const { campo:email } = correo;
-			const { campo:pwd } = password;
-			const { campo:pwd2 } = password2;
+		const { campo:user } = usuario;
+		const { campo:name } = nombre;
+		const { campo:phone } = telefono;
+		const { campo:email } = correo;
+		const { campo:pwd } = password;
+		const { campo:pwd2 } = password2;
 
 		const data = {
 			user,
@@ -115,29 +106,13 @@ const App = () => {
 			terminos,
 		}
 
-		action( data ).then( ( response ) => {
+		const endpoint = '/api/users';
+
+		post( endpoint,data ).then( ( response ) => {
 
 			console.log( response );
 
 		} ).catch( console.error )
-
-	} //end function
-
-	const action = async ( data ) => {
-
-		const endpoint = '/api/users';
-
-		const config = {
-			method : 'POST',
-			headers: { 'Content-Type' : 'application/json' },
-			body: JSON.stringify( data )
-		}
-
-		const request = await fetch( endpoint, config );
-
-		const dataResponse = await request.json();
-
-		return dataResponse;
 
 	} //end function
 
