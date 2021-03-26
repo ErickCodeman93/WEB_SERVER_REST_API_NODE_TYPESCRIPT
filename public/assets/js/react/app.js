@@ -34,6 +34,8 @@ const App = () => {
 
 	const [ terminos, cambiarTerminos ] = useState( true );
 
+	const [formularioValido, cambiarFormularioValido ] = useState( null );
+
 
 	const expresiones = {
 		usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
@@ -71,9 +73,77 @@ const App = () => {
 		cambiarTerminos( e.target.checked )
 	} //end function
 
+	const onSubmit = ( e ) => {
+		e.preventDefault();
+
+		if( usuario.valido 		=== 'true' &&
+			nombre.valido 		=== 'true' && 
+			password.valido 	=== 'true' && 
+			password2.valido 	=== 'true' &&
+			correo.valido 		=== 'true' && 
+			telefono.valido 	=== 'true' && 
+			terminos ){
+
+			cambiarFormularioValido( true );
+			cambiarUsuario( { campo: '',valido: null } );
+			cambiarNombre( { campo: '',valido: null } );
+			cambiarCorreo( { campo: '',valido: null } );
+			cambiarTelefono( { campo: '',valido: null } );
+			cambiarPassword( { campo: '',valido: null } );
+			cambiarPassword2( { campo: '',valido: null } ); 
+
+		} //end if
+		else{
+			cambiarFormularioValido( false );
+			return;
+		} //end else
+
+			const { campo:user } = usuario;
+			const { campo:name } = nombre;
+			const { campo:phone } = telefono;
+			const { campo:email } = correo;
+			const { campo:pwd } = password;
+			const { campo:pwd2 } = password2;
+
+		const data = {
+			user,
+			name,
+			phone,
+			email,
+			pwd,
+			pwd2,
+			terminos,
+		}
+
+		action( data ).then( ( response ) => {
+
+			console.log( response );
+
+		} ).catch( console.error )
+
+	} //end function
+
+	const action = async ( data ) => {
+
+		const endpoint = '/api/users';
+
+		const config = {
+			method : 'POST',
+			headers: { 'Content-Type' : 'application/json' },
+			body: JSON.stringify( data )
+		}
+
+		const request = await fetch( endpoint, config );
+
+		const dataResponse = await request.json();
+
+		return dataResponse;
+
+	} //end function
+
 	return (
 		<main>
-			<Formulario action="">
+			<Formulario action="" onSubmit={onSubmit}>
 				
 				<InputComponent
 					myState={ usuario }
@@ -153,7 +223,7 @@ const App = () => {
 					</Label>
 				</ContenedorTerminos>
 
-				{ false && <MensajeError>
+				{ formularioValido === false && <MensajeError>
 					<p>
 					<i class="fas fa-exclamation-circle"></i> <b>Error:</b> Todos los campos son obligatorios.
 					</p>
@@ -161,7 +231,7 @@ const App = () => {
 
 				<ContenedorBotonCentrado>
 					<Boton type="submit">Enviar</Boton>
-					<MensajeExito>Enviado exitosamente!</MensajeExito>
+					{ formularioValido === true && <MensajeExito>Enviado exitosamente!</MensajeExito> }
 				</ContenedorBotonCentrado>
 
 			</Formulario>

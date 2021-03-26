@@ -97,6 +97,10 @@ const ContenedorTerminos = window.styled.div`
 	input{
 		margin-right: 10px;
 	}
+
+	@media ( max-width: 800px  ){
+		grid-column: span 1;
+	}
 `;
 
 const ContenedorBotonCentrado = window.styled.div`
@@ -104,6 +108,10 @@ const ContenedorBotonCentrado = window.styled.div`
 	flex-direction: column;
 	align-items: center;
 	grid-column: span 2;
+
+	@media ( max-width: 800px  ){
+		grid-column: span 1;
+	}
 `;
 
 const Boton = window.styled.button`
@@ -125,15 +133,13 @@ const Boton = window.styled.button`
 `;
 
 const MensajeExito = window.styled.p`
-
 	font-size: 14px;
 	color: ${ colores.exito };
-	display: none;
 `;
 
 
 const MensajeError = window.styled.div`
-	height: 45px;
+	height: auto;
 	line-height: 45px;
 	background: #F66060;
 	padding: 0px 15px;
@@ -144,5 +150,8 @@ const MensajeError = window.styled.div`
 	}
 	b{
 		margin-left: 10px;
+	}
+	@media ( max-width: 800px  ){
+		grid-column: span 1;
 	}
 `;
