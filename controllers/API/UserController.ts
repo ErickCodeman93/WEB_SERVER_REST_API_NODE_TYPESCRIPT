@@ -1,4 +1,7 @@
 import { Request, Response } from "express";
+import Records from "../../models/DataBase/Records";
+import encryptPassword from "../../helpers/encryptPWS";
+import send from "../../helpers/sendMail";
 
 export const getUsuarios = ( req:Request, res: Response ) => {
 
@@ -7,16 +10,38 @@ export const getUsuarios = ( req:Request, res: Response ) => {
 	});
 } //end function
 
-export const postUsuario = ( req:Request, res: Response ) => {
+export const postUsuario = async ( req:Request, res: Response ) => {
 
 
-	const { body:data } = req;
+	const { user, name, phone, email, pwd:password } = req.body;
 
-	return res.status( 201 ).json({
-		msg: 'POST',
-		data
+	try {
 
-	});
+		
+		const data = new Records( { user, name, phone, email, password } ); 
+		
+		data.password = encryptPassword( password );
+		
+		await data.save();
+		
+		await send( name, email, phone, 'Hola Mundo' );
+		
+		return res.status( 201 ).json({
+			msg: 'POST',
+			data
+		});
+
+	} //end try 
+	catch ( error ) {
+		
+		console.log( error );
+		
+		return res.status( 500 ).json({
+			msg: 'error',
+			data: error.toString()
+		});
+	} //end catch
+
 } //end function
 
 export const getUsuario = ( req:Request, res: Response ) => {

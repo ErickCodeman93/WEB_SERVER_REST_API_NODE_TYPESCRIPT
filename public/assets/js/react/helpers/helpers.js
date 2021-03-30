@@ -1,19 +1,43 @@
 //Request Post
 
-const post = async ( endpoint, data ) => {
+const post = async ( endpoint, payload ) => {
 
 	const config = {
 		method : 'POST',
 		headers: { 'Content-Type' : 'application/json' },
-		body: JSON.stringify( data )
+		body: JSON.stringify( payload )
 	}
 
 	const request = await fetch( endpoint, config );
 
-	const dataResponse = await request.json();
+	// console.log( request );
+	const data = await request.json();
 
-	return dataResponse;
+	const { ok, status, statusText } = request; 
 
+	return { ok, status, statusText, data };
+
+} //end function
+
+const check = ( { status } ) => {
+
+	const codes = [
+		200,
+		201
+	]
+
+	if( ! codes.includes( status ) )
+		return false
+
+	return true;
+
+} //end function
+
+const errorsMsg = ( { data } ) => {
+	
+	const { errors } = data;
+	const  msg = ( errors ) ? errors[0].msg : '';
+	return msg;
 } //end function
 
 

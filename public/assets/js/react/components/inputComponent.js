@@ -32,9 +32,9 @@ const InputComponent = ( {
 		} //end if
 
 		if( myFuncion )
-			setIcon( myFuncion() );
+			setIcon( myFuncion() );	
+		
 	} //end function
-
 
 
 	return (

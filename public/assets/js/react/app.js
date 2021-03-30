@@ -108,11 +108,42 @@ const App = () => {
 
 		const endpoint = '/api/users';
 
-		post( endpoint,data ).then( ( response ) => {
+		Swal.fire( {
+			"allowOutsideClick": false,
+			"title": "Espere un momento por favor.",
+		} );
+		Swal.showLoading();
 
-			console.log( response );
+		post( endpoint, data ).then( ( response ) => {
+			
+			Swal.close();
 
-		} ).catch( console.error )
+			if( check( response ) )
+				Swal.fire( {
+					"confirmButtonText": "Aceptar",
+					"title": "Éxito",
+					"icon": 'success',
+				} );
+			else
+				Swal.fire({
+					"confirmButtonText": "Aceptar",
+					"title": "Error",
+					"icon": "error",
+					"text": errorsMsg( response )
+				});
+			
+
+		} ).catch( error => {
+
+			console.log( console.log( error ) );
+			Swal.close();
+			Swal.fire({
+				"confirmButtonText": "Aceptar",
+				"title": "Error",
+				"icon": "error",
+				'text': "Error del servidor"
+			});
+		} )
 
 	} //end function
 
@@ -173,6 +204,7 @@ const App = () => {
 					name="password"
 					msgError="El contraseña debe tener un mínimo de 4 dígitos, números, letras y guiones"
 					regex={ expresiones.password }
+					// myFuncion={ validarPassword2 }
 				/>
 
 				<InputComponent
@@ -183,7 +215,7 @@ const App = () => {
 					placeholder="Confirmar Password"
 					name="password2	"
 					msgError="El contraseña no es igual."
-					myFuncion={validarPassword2}
+					myFuncion={ validarPassword2 }
 				/>
 
 				<ContenedorTerminos>
