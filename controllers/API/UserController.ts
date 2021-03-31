@@ -25,7 +25,7 @@ export const postUsuario = async ( req:Request, res: Response ) => {
 		await data.save();
 		
 		await send( name, email, phone, 'Hola Mundo' );
-		
+
 		return res.status( 201 ).json({
 			msg: 'POST',
 			data
