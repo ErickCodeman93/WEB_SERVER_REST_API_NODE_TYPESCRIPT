@@ -13,7 +13,7 @@ export const getUsuarios = ( req:Request, res: Response ) => {
 export const postUsuario = async ( req:Request, res: Response ) => {
 
 
-	const { user, name, phone, email, pwd:password } = req.body;
+	const { user, name, phone, email, pwd:password, idiom } = req.body;
 
 	try {
 
@@ -24,7 +24,7 @@ export const postUsuario = async ( req:Request, res: Response ) => {
 		
 		await data.save();
 		
-		await send( name, email, phone, 'Hola Mundo' );
+		await send( name, email, phone, 'Hola Mundo', idiom );
 
 		return res.status( 201 ).json({
 			msg: 'POST',

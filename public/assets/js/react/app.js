@@ -67,6 +67,8 @@ const App = () => {
 	const onSubmit = ( e ) => {
 		e.preventDefault();
 
+		const [ ,idiom ] = location.pathname.split( '/' );
+
 		if( usuario.valido 		=== 'true' &&
 			nombre.valido 		=== 'true' && 
 			password.valido 	=== 'true' && 
@@ -104,6 +106,7 @@ const App = () => {
 			pwd,
 			pwd2,
 			terminos,
+			idiom
 		}
 
 		const endpoint = '/api/users';

@@ -2,7 +2,7 @@ import fs from "fs";
 import transporter from "../Mail/Config"
 import handlebars from "handlebars";
 
-const send = async ( name:string, email:string, tel:string, message:string  ) => {
+const send = async ( name: string, email: string, tel: string, message: string, idiom: string  ) => {
     
     try {
 
@@ -15,9 +15,12 @@ const send = async ( name:string, email:string, tel:string, message:string  ) =>
             message,
         }
 
+        const templateThanks = idiom === 'es' ? "/templates/es/thanks.html" : "/templates/en/thanks.html";
+        const templateContact = idiom === 'es' ? "/templates/es/contact.html" : "/templates/en/contact.html";
+
         await Promise.all( [
-            readHTMLFile( appRoot + "/templates/thanks.html", data, true ),
-            readHTMLFile( appRoot + "/templates/contact.html", data, false ),
+            readHTMLFile( appRoot + templateThanks, data, true, idiom ),
+            readHTMLFile( appRoot + templateContact, data, false, idiom ),
         ] );
 
         
@@ -41,7 +44,7 @@ const processMail = ( mailConfig: any ) => {
     } );
 } //end function
 
-const readHTMLFile = ( path:string, data:any, isClient:boolean ) => {
+const readHTMLFile = ( path: string, data: any, isClient: boolean, idiom:string ) => {
 
     const {  name, email, tel, message } = data;
 
@@ -68,14 +71,24 @@ const readHTMLFile = ( path:string, data:any, isClient:boolean ) => {
                     
         
                 const htmlToSend = template( replacements );
-        
-                //make mailable object
-                const mailConfig:any = {
-                    from: 'erickalvacontact@gmail.com',
-                    to: isClient ? email : 'erickalvacontact@gmail.com',
-                    subject: isClient ? 'Thanks for getting in contact with me !!!' : 'Someone wants to contact you',
-                    html : htmlToSend
-                }
+                
+                let mailConfig = {};
+
+                if( idiom === 'es' )
+                    //make mailable object
+                    mailConfig = {
+                        from: 'erickalvacontact@gmail.com',
+                        to: isClient ? email : 'erickalvacontact@gmail.com',
+                        subject: isClient ? 'Gracias por ponerte en contacto!!!' : 'Tienes un nuevo mensaje de contacto de tu sitio web!!!',
+                        html : htmlToSend
+                    }
+                else    
+                    mailConfig = {
+                        from: 'erickalvacontact@gmail.com',
+                        to: isClient ? email : 'erickalvacontact@gmail.com',
+                        subject: isClient ? 'Thanks for getting in contact with me !!!' : 'Someone wants to contact you from your web site',
+                        html : htmlToSend
+                    }
         
                 const response: any = await processMail( mailConfig );
         
